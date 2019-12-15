@@ -2,7 +2,7 @@
 'use strict';
 
 var assert = require('assert');
-var Banner = require('banner');
+var Banner = require('../index');
 
 describe('Banner', function () {
   /**
