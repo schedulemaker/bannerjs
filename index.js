@@ -15,14 +15,12 @@ class Banner {
         }
         this.School = require(`./config/${school}`);
         this.SessionId = Date.now();
-        //Set server for first classSearch
-        this.reset = this._init();
     }
 
-    async _init(){
+    async _init(term){
         const data = querystring.stringify({
             'uniqueSessionId': this.SessionId,
-            'term': this.Term
+            'term': term
         });
 
         const options = {
@@ -56,12 +54,15 @@ class Banner {
         return res.Data;
     }
 
-    async getSubjects(){
+    async getSubjects(term){
+        if (arguments.length < 1 || term === undefined || term === null){
+            throw new Error('Must provide term');
+        }
         const path = '/classSearch/get_subject';
         const params = querystring.stringify({
             offset: 1,
             max: -1,
-            term: this.Term
+            term: term
         });
         const options = {
             method: 'GET',
@@ -74,14 +75,17 @@ class Banner {
         return res.Data;
     }
 
-    async getInstructors(){
+    async getInstructors(term){
+        if (arguments.length < 1 || term === undefined || term === null){
+            throw new Error('Must provide term');
+        }
         const path = '/classSearch/get_instructor';
         const idxs = [...Array(this.School.instrMax / config.pageSizes.instructors).keys()].map(i => i + 1);
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
                 offset: idx,
                 max: config.pageSizes.instructors,
-                term: this.Term
+                term: term
             });
             const options = {
                 method: 'GET',
@@ -134,14 +138,15 @@ class Banner {
         return res.Data;
     }
 
-    async classSearch(subject, openOnly=false){
-        if (arguments.length < 1){
-            throw new Error('Must provide subject');
+    async classSearch(term, subject, openOnly=false){
+        if (arguments.length < 2){
+            throw new Error('Must provide term and subject');
         }
+        let reset = this._init(term);
         const path = '/searchResults';
         let params = {
             txt_subject: subject,
-            txt_term: this.Term,
+            txt_term: term,
             pageOffset: 0,
             pageMaxSize: -1,
             uniqueSessionId: this.SessionId
@@ -149,7 +154,7 @@ class Banner {
         if (openOnly) params.chk_open_only = true;
         params = querystring.stringify(params);
 
-        await this.reset;
+        await reset;
         const options = {
             method: 'GET',
             hostname: this.School.host,
@@ -161,19 +166,18 @@ class Banner {
         };
         
         let res = await promiseRequest(options);
-        //Reset server for next classSearch
-        this.reset = this._init();
         return res.Data.data;
     }
 
-    async catalogSearch(subject){
-        if (arguments.length < 1){
-            throw new Error('Must provide subject');
+    async catalogSearch(term, subject){
+        if (arguments.length < 2){
+            throw new Error('Must provide term and subject');
         }
+        let reset = this._init(term);
         const path = '/courseSearchResults';
         let params = {
             txt_subject: subject,
-            txt_term: this.Term,
+            txt_term: term,
             pageOffset: 0,
             pageMaxSize: -1,
             uniqueSessionId: this.SessionId
@@ -189,16 +193,17 @@ class Banner {
                 'Cookie': this.Cookie     
             }
         };
-        await this.reset;
+        await reset;
         let res = await promiseRequest(options);
-        //Reset server for next classSearch
-        this.reset = this._init();
         return res.Data.data;
     }
 
-    async getAllCourses(){
-        let subjects = (await this.getSubjects()).map(subj => subj.code);
-        let courses = await Promise.all(subjects.map(async subj => this.catalogSearch(subj)));
+    async getAllCourses(term){
+        if (arguments.length < 1 || term === undefined || term === null){
+            throw new Error('Must provide term');
+        }
+        let subjects = (await this.getSubjects(term)).map(subj => subj.code);
+        let courses = await Promise.all(subjects.map(async subj => this.catalogSearch(term, subj)));
         return courses.flat();
     }
 }
