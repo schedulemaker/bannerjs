@@ -3,16 +3,7 @@
 
 const https = require('https');
 const querystring = require('querystring');
-
-
-/**
- * HTTPS configuration constants
- */
-const host = 'prd-xereg.temple.edu';
-const basePath = '/StudentRegistrationSsb/ssb';
-
-const INSTR_MAX = 3700;
-const PAGE_SIZE = 100;
+const config = require('./config/global.json');
 
 /**
  * @class Class to interact with the SSB Server
@@ -37,7 +28,7 @@ class Banner {
         const options = {
             method: 'POST',
             hostname: host,
-            path: basePath + '/term/search',
+            path: config.basePath + '/term/search',
             port: 443,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'      
@@ -57,7 +48,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}?${params}`,
+            path: `${config.basePath}${path}?${params}`,
             port: 443
         };
             
@@ -75,7 +66,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}?${params}`,
+            path: `${config.basePath}${path}?${params}`,
             port: 443
         };
             
@@ -83,19 +74,19 @@ class Banner {
         return res.Data;
     }
 
-    async getInstructors(offset, max){
+    async getInstructors(){
         const path = '/classSearch/get_instructor';
-        const idxs = [...Array(INSTR_MAX / PAGE_SIZE).keys()].map(i => i + 1);
+        const idxs = [...Array(INSTR_MAX / config.pageSizes.instructors).keys()].map(i => i + 1);
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
                 offset: idx,
-                max: PAGE_SIZE,
+                max: config.pageSizes.instructors,
                 term: this.Term
             });
             const options = {
                 method: 'GET',
                 hostname: host,
-                path: `${basePath}${path}?${params}`,
+                path: `${config.basePath}${path}?${params}`,
                 port: 443
             };
             return promiseRequest(options);
@@ -109,7 +100,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}`,
+            path: `${config.basePath}${path}`,
             port: 443
         };
             
@@ -122,7 +113,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}`,
+            path: `${config.basePath}${path}`,
             port: 443
         };
             
@@ -135,7 +126,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}`,
+            path: `${config.basePath}${path}`,
             port: 443
         };
             
@@ -162,7 +153,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}?${params}`,
+            path: `${config.basePath}${path}?${params}`,
             port: 443,
             headers: {
                 'Cookie': this.Cookie     
@@ -192,7 +183,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: host,
-            path: `${basePath}${path}?${params}`,
+            path: `${config.basePath}${path}?${params}`,
             port: 443,
             headers: {
                 'Cookie': this.Cookie     
