@@ -3,18 +3,18 @@
 
 const https = require('https');
 const querystring = require('querystring');
-const config = require('./config/global.json');
+const config = require('./config/global');
 
 /**
  * @class Class to interact with the SSB Server
  */
 class Banner {
-    constructor(term){
-        if (arguments.length < 1 || term === undefined || term === null){
-            throw new Error('Must provide term to complete object construction');
+    constructor(school){
+        if (arguments.length < 1 || school === undefined || school === null){
+            throw new Error('Must provide school name');
         }
+        this.School = require(`./config/${school}`);
         this.SessionId = Date.now();
-        this.Term = term;
         //Set server for first classSearch
         this.reset = this._init();
     }
@@ -27,7 +27,7 @@ class Banner {
 
         const options = {
             method: 'POST',
-            hostname: host,
+            hostname: this.School.host,
             path: config.basePath + '/term/search',
             port: 443,
             headers: {
@@ -47,7 +47,7 @@ class Banner {
         });
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}?${params}`,
             port: 443
         };
@@ -65,7 +65,7 @@ class Banner {
         });
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}?${params}`,
             port: 443
         };
@@ -76,7 +76,7 @@ class Banner {
 
     async getInstructors(){
         const path = '/classSearch/get_instructor';
-        const idxs = [...Array(INSTR_MAX / config.pageSizes.instructors).keys()].map(i => i + 1);
+        const idxs = [...Array(this.School.instrMax / config.pageSizes.instructors).keys()].map(i => i + 1);
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
                 offset: idx,
@@ -85,7 +85,7 @@ class Banner {
             });
             const options = {
                 method: 'GET',
-                hostname: host,
+                hostname: this.School.host,
                 path: `${config.basePath}${path}?${params}`,
                 port: 443
             };
@@ -99,7 +99,7 @@ class Banner {
         const path = '/classSearch/get_campus';
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}`,
             port: 443
         };
@@ -112,7 +112,7 @@ class Banner {
         const path = '/classSearch/get_college';
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}`,
             port: 443
         };
@@ -125,7 +125,7 @@ class Banner {
         const path = '/classSearch/get_attribute';
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}`,
             port: 443
         };
@@ -152,7 +152,7 @@ class Banner {
         await this.reset;
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}?${params}`,
             port: 443,
             headers: {
@@ -182,7 +182,7 @@ class Banner {
 
         const options = {
             method: 'GET',
-            hostname: host,
+            hostname: this.School.host,
             path: `${config.basePath}${path}?${params}`,
             port: 443,
             headers: {

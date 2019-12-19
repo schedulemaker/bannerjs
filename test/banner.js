@@ -8,14 +8,14 @@ describe('Banner', function () {
   /**
    * SETUP
    */
-  const term = 202003;
+  const school = 'temple';
 
   /**
    * CONSTRUCTOR
    */
-  describe('#constructor(term)', function () {
-    it('Should throw an error when a term is not passed', function () {
-      assert.throws(() => new Banner(), Error, 'Must provide term to complete object construction');
+  describe('#constructor(school)', function () {
+    it('Should throw an error when a school is not passed', function () {
+      assert.throws(() => new Banner(), Error, 'Must provide school');
     });
   });
 
@@ -24,7 +24,7 @@ describe('Banner', function () {
    */
   describe('#_init()', function () {
     it('Should set Banner.Cookie value', async function () {
-      let b = new Banner(term);
+      let b = new Banner(school);
       await b._init();
       assert.strict(banner.Cookie);
     });
@@ -33,7 +33,7 @@ describe('Banner', function () {
   /**
    * SETUP
    */
-  var banner = new Banner(term);
+  var banner = new Banner(school);
 
   /**
    * GET_TERMS()
