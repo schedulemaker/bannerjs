@@ -3,7 +3,7 @@
 
 const https = require('https');
 const querystring = require('querystring');
-const config = require('./config/global');
+const config = require('./config');
 
 /**
  * @class Class to interact with the SSB Server
@@ -13,8 +13,10 @@ class Banner {
         if (arguments.length < 1 || school === undefined || school === null){
             throw new Error('Must provide school name');
         }
-        this.School = require(`./config/${school}`);
+        this.School = config[school];
         this.SessionId = Date.now();
+        this.BasePath = config.global.basePath;
+        this.PageSizes = config.global.pageSizes;
     }
 
     async _init(term){
@@ -26,7 +28,7 @@ class Banner {
         const options = {
             method: 'POST',
             hostname: this.School.host,
-            path: config.basePath + '/term/search',
+            path: this.BasePath + '/term/search',
             port: 443,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'      
@@ -46,7 +48,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}?${params}`,
+            path: `${this.BasePath}${path}?${params}`,
             port: 443
         };
             
@@ -67,7 +69,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}?${params}`,
+            path: `${this.BasePath}${path}?${params}`,
             port: 443
         };
             
@@ -84,13 +86,13 @@ class Banner {
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
                 offset: idx,
-                max: config.pageSizes.instructors,
+                max: this.PageSizes.instructors,
                 term: term
             });
             const options = {
                 method: 'GET',
                 hostname: this.School.host,
-                path: `${config.basePath}${path}?${params}`,
+                path: `${this.BasePath}${path}?${params}`,
                 port: 443
             };
             return promiseRequest(options);
@@ -104,7 +106,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}`,
+            path: `${this.BasePath}${path}`,
             port: 443
         };
             
@@ -117,7 +119,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}`,
+            path: `${this.BasePath}${path}`,
             port: 443
         };
             
@@ -130,7 +132,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}`,
+            path: `${this.BasePath}${path}`,
             port: 443
         };
             
@@ -158,7 +160,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}?${params}`,
+            path: `${this.BasePath}${path}?${params}`,
             port: 443,
             headers: {
                 'Cookie': this.Cookie     
@@ -187,7 +189,7 @@ class Banner {
         const options = {
             method: 'GET',
             hostname: this.School.host,
-            path: `${config.basePath}${path}?${params}`,
+            path: `${this.BasePath}${path}?${params}`,
             port: 443,
             headers: {
                 'Cookie': this.Cookie     
