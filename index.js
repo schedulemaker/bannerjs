@@ -82,7 +82,7 @@ class Banner {
             throw new Error('Must provide term');
         }
         const path = '/classSearch/get_instructor';
-        const idxs = [...Array(this.School.instrMax / config.pageSizes.instructors).keys()].map(i => i + 1);
+        const idxs = [...Array(this.School.instrMax / this.PageSizes.instructors).keys()].map(i => i + 1);
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
                 offset: idx,
