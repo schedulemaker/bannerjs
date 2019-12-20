@@ -13,15 +13,18 @@ class Banner {
         if (arguments.length < 1 || school === undefined || school === null){
             throw new Error('Must provide school name');
         }
+
+        if (config[school] === undefined){
+            throw new Error('Invalid school');
+        }
         this.School = config[school];
-        this.SessionId = Date.now();
         this.BasePath = config.global.basePath;
         this.PageSizes = config.global.pageSizes;
     }
 
-    async _init(term){
+    async _reset(term){
         const data = querystring.stringify({
-            'uniqueSessionId': this.SessionId,
+            'uniqueSessionId': Math.random().toString(36).substr(2,5) + Date.now(),
             'term': term
         });
 
@@ -36,7 +39,7 @@ class Banner {
         };
 
         let res = await promiseRequest(options, data);
-        this.Cookie = res.Response.headers['set-cookie'];
+        return res.Response.headers['set-cookie'];
     }
 
     async getTerms(){
@@ -144,7 +147,7 @@ class Banner {
         if (arguments.length < 2){
             throw new Error('Must provide term and subject');
         }
-        let reset = this._init(term);
+        let cookie = this._reset(term);
         const path = '/searchResults';
         let params = {
             txt_subject: subject,
@@ -156,14 +159,13 @@ class Banner {
         if (openOnly) params.chk_open_only = true;
         params = querystring.stringify(params);
 
-        await reset;
         const options = {
             method: 'GET',
             hostname: this.School.host,
             path: `${this.BasePath}${path}?${params}`,
             port: 443,
             headers: {
-                'Cookie': this.Cookie     
+                'Cookie': await cookie    
             }
         };
         
@@ -175,7 +177,7 @@ class Banner {
         if (arguments.length < 2){
             throw new Error('Must provide term and subject');
         }
-        let reset = this._init(term);
+        let cookie = this._reset(term);
         const path = '/courseSearchResults';
         let params = {
             txt_subject: subject,
@@ -192,7 +194,7 @@ class Banner {
             path: `${this.BasePath}${path}?${params}`,
             port: 443,
             headers: {
-                'Cookie': this.Cookie     
+                'Cookie': await cookie     
             }
         };
         await reset;
