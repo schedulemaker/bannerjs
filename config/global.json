@@ -1,8 +1,0 @@
-{
-    "basePath": "/StudentRegistrationSsb/ssb",
-    "pageSizes": {
-        "instructors": 100,
-        "classSearch": 25,
-        "catalog": 100
-    }
-}
