@@ -21,13 +21,15 @@ describe('Banner', function () {
   });
 
   /**
-   * _INIT()
+   * _RESET()
    */
-  describe('#_init()', function () {
-    it('Should set Banner.Cookie value', async function () {
-      let b = new Banner(school);
-      await b._init(term);
-      assert.strict(banner.Cookie);
+  describe('#_reset()', function () {
+    it('Should return cookie value', async function () {
+      let banner = new Banner(school);
+      let cookie = await banner._reset(term)
+      assert.strict(cookie.length === 2);
+      assert.strict(cookie[0].startsWith('JSESSIONID'));
+      assert.strict(cookie[1].startsWith('BIGipServer'));
     });
   });
 
@@ -59,7 +61,7 @@ describe('Banner', function () {
    */
   describe('#getSubjects()', function () {
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getSubjects(), Error, 'Must provide term');
+      assert.rejects(async () => await banner.getSubjects(), Error, 'Must provide term');
     });
 
     it('Should not return void', async function () {
@@ -133,7 +135,7 @@ describe('Banner', function () {
     this.timeout(15000);
     var data = null;
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getInstructors(), Error, 'Must provide term');
+      assert.rejects(async () => await banner.getInstructors(), Error, 'Must provide term');
     });
 
     it('Should not return void', async function () {
@@ -153,7 +155,7 @@ describe('Banner', function () {
     this.timeout(30000);
     var data = null;
     it('Should throw an error when a subject and term are not passed', function () {
-      assert.rejects(async () => banner.classSearch, Error, 'Must provide term and subject');
+      assert.rejects(async () =>await banner.classSearch(), Error, 'Must provide term and subject');
     });
 
     it('Should not return NULL', async function(){
@@ -173,7 +175,7 @@ describe('Banner', function () {
     this.timeout(30000);
     var data = null;
     it('Should throw an error when a term and subject are not passed', function () {
-      assert.rejects(async () => banner.catalogSearch, Error, 'Must provide term and subject');
+      assert.rejects(async () => await banner.catalogSearch(), Error, 'Must provide term and subject');
     });
 
     it('Should not return NULL', async function(){
@@ -193,7 +195,7 @@ describe('Banner', function () {
     this.timeout(30000);
     var data = null;
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getAllCourses(), Error, 'Must provide term');
+      assert.rejects(async () => await banner.getAllCourses(), Error, 'Must provide term');
     });
 
     it('Should not return NULL', async function(){

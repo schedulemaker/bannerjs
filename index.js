@@ -24,7 +24,6 @@ class Banner {
 
     async _reset(term){
         const data = querystring.stringify({
-            'uniqueSessionId': Math.random().toString(36).substr(2,5) + Date.now(),
             'term': term
         });
 
@@ -85,10 +84,10 @@ class Banner {
             throw new Error('Must provide term');
         }
         const path = '/classSearch/get_instructor';
-        const idxs = [...Array(this.School.instrMax / this.PageSizes.instructors).keys()].map(i => i + 1);
+        const idxs = [...Array(this.School.instrMax / this.PageSizes.instructors).keys()];
         let res = await Promise.all(idxs.map(async idx => {
             const params = querystring.stringify({
-                offset: idx,
+                offset: ++idx,
                 max: this.PageSizes.instructors,
                 term: term
             });
@@ -153,8 +152,7 @@ class Banner {
             txt_subject: subject,
             txt_term: term,
             pageOffset: 0,
-            pageMaxSize: -1,
-            uniqueSessionId: this.SessionId
+            pageMaxSize: -1
         };
         if (openOnly) params.chk_open_only = true;
         params = querystring.stringify(params);
@@ -183,8 +181,7 @@ class Banner {
             txt_subject: subject,
             txt_term: term,
             pageOffset: 0,
-            pageMaxSize: -1,
-            uniqueSessionId: this.SessionId
+            pageMaxSize: -1
         };
         params = querystring.stringify(params);
 
@@ -197,7 +194,6 @@ class Banner {
                 'Cookie': await cookie     
             }
         };
-        await reset;
         let res = await promiseRequest(options);
         return res.Data.data;
     }
