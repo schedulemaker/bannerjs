@@ -10,6 +10,7 @@ describe('Banner', function () {
    */
   const school = 'temple';
   const term = 202003;
+  var cache = {};
 
   /**
    * CONSTRUCTOR
@@ -21,36 +22,43 @@ describe('Banner', function () {
   });
 
   /**
-   * _INIT()
-   */
-  describe('#_init()', function () {
-    it('Should set Banner.Cookie value', async function () {
-      let b = new Banner(school);
-      await b._init(term);
-      assert.strict(banner.Cookie);
-    });
-  });
-
-  /**
    * SETUP
    */
   var banner = new Banner(school);
 
   /**
+   * _RESET()
+   */
+  describe('#_reset()', function () {
+    it('Should return cookie value', async function () {
+      let cookie = await banner._reset(term)
+      assert.strict(cookie.length === 2);
+      assert.strict(cookie[0].startsWith('JSESSIONID'));
+      assert.strict(cookie[1].startsWith('BIGipServer'));
+    });
+  });
+
+  
+
+  /**
    * GET_TERMS()
    */
   describe('#getTerms()', function () {
-    it('Should not throw an error', async function () {
-      assert.doesNotReject(banner.getTerms());
+
+    before(async () => {
+      cache.terms = await banner.getTerms();
     });
 
-    it('Should not return void', async function () {
-      assert.strict(await banner.getTerms());
+    it('Should not throw an error', function () {
+      assert.doesNotReject(async () => await banner.getTerms());
     });
 
-    it('Should return a non-empty array', async function () {
-      let terms = await banner.getTerms();
-      assert.strict(terms.length > 0);
+    it('Should not return void', function () {
+      assert.strict(cache.terms);
+    });
+
+    it('Should return a non-empty array', function () {
+      assert.strict(cache.terms.length > 0);
     });
   });
 
@@ -58,17 +66,21 @@ describe('Banner', function () {
    * GETSUBJECTS()
    */
   describe('#getSubjects()', function () {
+
+    before(async () => {
+      cache.subjects = await banner.getSubjects(term);
+    });
+
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getSubjects(), Error, 'Must provide term');
+      assert.rejects(async () => await banner.getSubjects(), Error, 'Must provide term');
     });
 
-    it('Should not return void', async function () {
-      assert.strict(await banner.getSubjects(term));
+    it('Should not return void', function () {
+      assert.strict(cache.subjects);
     });
 
-    it('Should return a non-empty array', async function () {
-      let terms = await banner.getSubjects(term);
-      assert.strict(terms.length > 0);
+    it('Should return a non-empty array', function () {
+      assert.strict(cache.subjects.length > 0);
     });
   });
 
@@ -76,17 +88,21 @@ describe('Banner', function () {
    * GETCAMPUS()
    */
   describe('#getCampus()', function () {
-    it('Should not throw an error', async function () {
-      assert.doesNotReject(banner.getCampus());
+
+    before(async () => {
+      cache.campus = await banner.getCampus();
     });
 
-    it('Should not return void', async function () {
-      assert.strict(await banner.getCampus());
+    it('Should not throw an error', function () {
+      assert.doesNotReject(async () => await banner.getCampus());
     });
 
-    it('Should return a non-empty array', async function () {
-      let terms = await banner.getCampus();
-      assert.strict(terms.length > 0);
+    it('Should not return void', function () {
+      assert.strict(cache.campus);
+    });
+
+    it('Should return a non-empty array', function () {
+      assert.strict(cache.campus.length > 0);
     });
   });
 
@@ -94,17 +110,21 @@ describe('Banner', function () {
    * GETCOLLEGES()
    */
   describe('#getColleges()', function () {
-    it('Should not throw an error', async function () {
-      assert.doesNotReject(banner.getColleges());
+
+    before(async () => {
+      cache.colleges = await banner.getColleges();
     });
 
-    it('Should not return void', async function () {
-      assert.strict(await banner.getColleges());
+    it('Should not throw an error', function () {
+      assert.doesNotReject(async () => await banner.getColleges());
     });
 
-    it('Should return a non-empty array', async function () {
-      let terms = await banner.getColleges();
-      assert.strict(terms.length > 0);
+    it('Should not return void', function () {
+      assert.strict(cache.colleges);
+    });
+
+    it('Should return a non-empty array', function () {
+      assert.strict(cache.colleges.length > 0);
     });
   });
 
@@ -112,17 +132,21 @@ describe('Banner', function () {
    * GETATTRIBUTES()
    */
   describe('#getAttributes()', function () {
-    it('Should not throw an error', async function () {
-      assert.doesNotReject(banner.getAttributes());
+
+    before(async () => {
+      cache.attributes = await banner.getAttributes();
     });
 
-    it('Should not return void', async function () {
-      assert.strict(await banner.getAttributes());
+    it('Should not throw an error', function () {
+      assert.doesNotReject(async () => await banner.getAttributes());
     });
 
-    it('Should return a non-empty array', async function () {
-      let terms = await banner.getAttributes();
-      assert.strict(terms.length > 0);
+    it('Should not return void', function () {
+      assert.strict(cache.attributes);
+    });
+
+    it('Should return a non-empty array', function () {
+      assert.strict(cache.attributes.length > 0);
     });
   });
 
@@ -131,18 +155,21 @@ describe('Banner', function () {
    */
   describe('#getInstructors()', function () {
     this.timeout(15000);
-    var data = null;
-    it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getInstructors(), Error, 'Must provide term');
+
+    before(async () => {
+      cache.instructors = await banner.getInstructors(term);
     });
 
-    it('Should not return void', async function () {
-      data = await banner.getInstructors(term);
-      assert.strict(data);
+    it('Should throw an error when a term is not passed', function () {
+      assert.rejects(async () => await banner.getInstructors(), Error, 'Must provide term');
+    });
+
+    it('Should not return void', function () {
+      assert.strict(cache.instructors);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(data.length > 0);
+      assert.strict(cache.instructors.length > 0);
     });
   });
 
@@ -151,18 +178,21 @@ describe('Banner', function () {
    */
   describe('#classSearch(subjects)', function () {
     this.timeout(30000);
-    var data = null;
-    it('Should throw an error when a subject and term are not passed', function () {
-      assert.rejects(async () => banner.classSearch, Error, 'Must provide term and subject');
+
+    before(async () => {
+      cache.classes = await banner.classSearch(term, 'CIS');
     });
 
-    it('Should not return NULL', async function(){
-      data = await banner.classSearch(term, 'CIS');
-      assert.strict(data);
+    it('Should throw an error when a subject and term are not passed', function () {
+      assert.rejects(async () =>await banner.classSearch(), Error, 'Must provide term and subject');
+    });
+
+    it('Should not return NULL', function(){
+      assert.strict(cache.classes);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(data.length > 0);
+      assert.strict(cache.classes.length > 0);
     });
   });
 
@@ -171,18 +201,21 @@ describe('Banner', function () {
    */
   describe('#catalogSearch(subjects)', function () {
     this.timeout(30000);
-    var data = null;
-    it('Should throw an error when a term and subject are not passed', function () {
-      assert.rejects(async () => banner.catalogSearch, Error, 'Must provide term and subject');
+
+    before(async () => {
+      cache.catalog = await banner.catalogSearch(term, 'CIS');
     });
 
-    it('Should not return NULL', async function(){
-      data = await banner.catalogSearch(term, 'CIS');
-      assert.strict(data);
+    it('Should throw an error when a term and subject are not passed', function () {
+      assert.rejects(async () => await banner.catalogSearch(), Error, 'Must provide term and subject');
+    });
+
+    it('Should not return NULL', function(){
+      assert.strict(cache.catalog);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(data.length > 0);
+      assert.strict(cache.catalog.length > 0);
     });
   });
 
@@ -191,18 +224,26 @@ describe('Banner', function () {
    */
   describe('#getAllCourses()', function () {
     this.timeout(30000);
-    var data = null;
-    it('Should throw an error when a term is not passed', function () {
-      assert.rejects(() => banner.getAllCourses(), Error, 'Must provide term');
+
+    before(async () => {
+      cache.courses = await banner.getAllCourses(term);
     });
 
-    it('Should not return NULL', async function(){
-      data = await banner.getAllCourses(term);
-      assert.strict(data);
+    it('Should throw an error when a term is not passed', function () {
+      assert.rejects(async () => await banner.getAllCourses(), Error, 'Must provide term');
+    });
+
+    it('Should not return NULL', function(){
+      assert.strict(cache.courses);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(data.length > 0);
+      assert.strict(cache.courses.length > 0);
+    });
+
+    it('Should retrieve courses for each subject', function () {
+      let uniqueSubjects = [...new Set(cache.courses.map(item => item.subject))];
+      assert.strict(cache.subjects.length === uniqueSubjects.length);
     });
   });
 });
