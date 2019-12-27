@@ -1,6 +1,5 @@
 # BannerJS
-This javascript library provides a simple API to retrieve information from Ellucian Banner. The library is designed to work both in browser and server environments (NodeJS).
-
+This NodeJS library provides a simple API to retrieve information from Ellucian Banner.
 BannerJS comes with various configurations for different universities (see the full list of supported universities [here](https://github.com/schedulemaker/bannerjs/wiki/Supported-Universities)). Submissions for new university configurations are always welcome. Please read the [config guidelines](https://github.com/schedulemaker/bannerjs/wiki/University-Config-Guidelines) and submit a pull request.
 
 ## Creating a new instance
