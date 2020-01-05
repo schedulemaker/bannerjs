@@ -1,0 +1,18 @@
+{
+    "getTerms": "getTerms",
+    "get_subject": "getSubjects",
+    "get_instructor": "getInstructors",
+    "get_campus": "getCampus",
+    "get_college": "getColleges",
+    "get_attribute": "getAttributes",
+    "get_session": "getSessions",
+    "get_level": "getLevels",
+    "get_instructionalMethod": "getInstrMethods",
+    "get_partOfTerm": "getPartsOfTerm",
+    "get_building": "getBuildings",
+    "get_ScheduleType": "getScheduleTypes",
+    "get_subjectcoursecombo": "getCourseNames",
+    "get_department": "getDepartments",
+    "searchResults": "classSearch",
+    "courseSearchResults": "catalogSearch"
+}
