@@ -32,7 +32,7 @@
         "path": "/classSearch/get_level"
     },
     "get_instructionalMethod": {
-        "displayName": "getInstrMethods",
+        "displayName": "getInstructionalMethods",
         "path": "/classSearch/get_instructionalMethod"
     },
     "get_partOfTerm": {
@@ -62,5 +62,13 @@
     "courseSearchResults": {
         "displayName": "catalogSearch",
         "path": "/courseSearchResults"
+    },
+    "getCourseDescription": {
+        "displayName": "getCourseDescription",
+        "path": "/searchResults/getCourseDescription"
+    },
+    "getCookie": {
+        "displayName": "getCookie",
+        "path": "/term/search"
     }
 }
