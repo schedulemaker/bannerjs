@@ -12,17 +12,19 @@
     },
     "temple": {
         "host": "prd-xereg.temple.edu",
-        "instrMax": 3700,
         "methods": [
-            "getSubjects",
-            "getInstructors",
-            "getColleges",
-            "getAttributes",
-            "getCampus",
+            "get_subject",
+            "get_instructor",
+            "get_college",
+            "get_attribute",
+            "get_campus",
             "getTerms",
-            "classSearch",
-            "catalogSearch",
-            "getCourseNames"
+            "searchResults",
+            "courseSearchResults",
+            "get_instructionalMethod",
+            "get_partOfTerm",
+            "get_session",
+            "get_subjectcoursecombo"
         ]
     }
 }
