@@ -24,7 +24,6 @@
             "get_instructionalMethod",
             "get_partOfTerm",
             "get_session",
-            "get_subjectcoursecombo",
             "getCourseDescription"
         ]
     }
