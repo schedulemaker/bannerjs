@@ -1,0 +1,31 @@
+{
+    "global": {
+        "basePath": "/StudentRegistrationSsb/ssb",
+        "pageSizes": {
+            "instructors": 100,
+            "classSearch": 25,
+            "catalog": 100
+        },
+        "batchSizes": {
+            "instructors": 1000
+        }
+    },
+    "temple": {
+        "host": "prd-xereg.temple.edu",
+        "methods": [
+            "get_subject",
+            "get_instructor",
+            "get_college",
+            "get_attribute",
+            "get_campus",
+            "getTerms",
+            "searchResults",
+            "courseSearchResults",
+            "get_instructionalMethod",
+            "get_partOfTerm",
+            "get_session",
+            "get_subjectcoursecombo",
+            "getCourseDescription"
+        ]
+    }
+}
