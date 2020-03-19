@@ -23,7 +23,7 @@ class Banner {
         }
         this.School = school;
         config.schools[school].methods.forEach(method => {
-            this[methods[method].displayName] = lib[method]
+            this[methods[method].displayName] = lib[methods[method].displayName]
         });
     }
 }
