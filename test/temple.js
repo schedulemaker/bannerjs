@@ -125,7 +125,11 @@ describe('Banner', function () {
   describe('#getColleges()', function () {
 
     before(async () => {
-      cache.colleges = await banner.getColleges();
+      try {
+        cache.colleges = await banner.getColleges();
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     it('Should not throw an error', function () {
@@ -147,7 +151,11 @@ describe('Banner', function () {
   describe('#getAttributes()', function () {
 
     before(async () => {
-      cache.attributes = await banner.getAttributes();
+      try {
+        cache.attributes = await banner.getAttributes();
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     it('Should not throw an error', function () {
@@ -170,7 +178,12 @@ describe('Banner', function () {
     this.timeout(15000);
 
     before(async () => {
-      cache.instructors = await banner.getInstructors(term);
+      try {
+        cache.instructors = await banner.getInstructors(term);
+      } catch (e) {
+        console.error(e);
+      }
+
     });
 
     it('Should throw an error when a term is not passed', function () {
