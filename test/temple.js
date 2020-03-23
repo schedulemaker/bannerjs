@@ -99,7 +99,11 @@ describe('Banner', function () {
   describe('#getCampus()', function () {
 
     before(async () => {
-      cache.campus = await banner.getCampus();
+      try {
+        cache.campus = await banner.getCampus();
+      } catch (e) {
+      console.error(e);
+      }
     });
 
     it('Should not throw an error', function () {
