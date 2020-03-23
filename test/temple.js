@@ -38,7 +38,7 @@ describe('Banner', function () {
     });
   });
 
-  
+
 
   /**
    * GET_TERMS()
@@ -46,7 +46,11 @@ describe('Banner', function () {
   describe('#getTerms()', function () {
 
     before(async () => {
-      cache.terms = await banner.getTerms();
+      try {
+        cache.terms = await banner.getTerms();
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     it('Should not throw an error', function () {
