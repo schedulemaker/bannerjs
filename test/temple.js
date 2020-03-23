@@ -206,7 +206,11 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      cache.classes = await banner.classSearch(term, 'CIS');
+      try {
+        cache.classes = await banner.classSearch(term, 'CIS');
+      } catch (e) {
+      console.error(e);
+      }
     });
 
     it('Should throw an error when a subject and term are not passed', function () {
