@@ -260,7 +260,12 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      cache.courses = await banner.getAllCourses(term);
+      try {
+        cache.courses = await banner.getAllCourses(term);
+      } catch (e) {
+        console.error(e);
+      }
+
     });
 
     it('Should throw an error when a term is not passed', function () {
