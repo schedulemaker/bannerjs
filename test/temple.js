@@ -72,7 +72,12 @@ describe('Banner', function () {
   describe('#getSubjects()', function () {
 
     before(async () => {
-      cache.subjects = await banner.getSubjects(term);
+      try {
+        cache.subjects = await banner.getSubjects(term);
+      } catch (e) {
+        console.error(e);
+      }
+
     });
 
     it('Should throw an error when a term is not passed', function () {
