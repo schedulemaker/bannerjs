@@ -233,7 +233,11 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      cache.catalog = await banner.catalogSearch(term, 'CIS');
+      try {
+        cache.catalog = await banner.catalogSearch(term, 'CIS');
+      } catch (e) {
+      console.error(e);
+      }
     });
 
     it('Should throw an error when a term and subject are not passed', function () {
