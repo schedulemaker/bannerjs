@@ -46,11 +46,7 @@ describe('Banner', function () {
   describe('#getTerms()', function () {
 
     before(async () => {
-      try {
-        cache.terms = await banner.getTerms();
-      } catch (e) {
-        console.error(e);
-      }
+      cache.terms = await banner.getTerms();
     });
 
     it('Should not throw an error', function () {
@@ -72,12 +68,7 @@ describe('Banner', function () {
   describe('#getSubjects()', function () {
 
     before(async () => {
-      try {
-        cache.subjects = await banner.getSubjects(term);
-      } catch (e) {
-        console.error(e);
-      }
-
+      cache.subjects = await banner.getSubjects(term);
     });
 
     it('Should throw an error when a term is not passed', function () {
@@ -99,11 +90,7 @@ describe('Banner', function () {
   describe('#getCampus()', function () {
 
     before(async () => {
-      try {
-        cache.campus = await banner.getCampus();
-      } catch (e) {
-      console.error(e);
-      }
+      cache.campus = await banner.getCampus();
     });
 
     it('Should not throw an error', function () {
@@ -125,11 +112,7 @@ describe('Banner', function () {
   describe('#getColleges()', function () {
 
     before(async () => {
-      try {
-        cache.colleges = await banner.getColleges();
-      } catch (e) {
-        console.error(e);
-      }
+      cache.colleges = await banner.getColleges();
     });
 
     it('Should not throw an error', function () {
@@ -151,11 +134,7 @@ describe('Banner', function () {
   describe('#getAttributes()', function () {
 
     before(async () => {
-      try {
-        cache.attributes = await banner.getAttributes();
-      } catch (e) {
-        console.error(e);
-      }
+      cache.attributes = await banner.getAttributes();
     });
 
     it('Should not throw an error', function () {
@@ -178,12 +157,7 @@ describe('Banner', function () {
     this.timeout(15000);
 
     before(async () => {
-      try {
-        cache.instructors = await banner.getInstructors(term);
-      } catch (e) {
-        console.error(e);
-      }
-
+      cache.instructors = await banner.getInstructors(term);
     });
 
     it('Should throw an error when a term is not passed', function () {
@@ -206,11 +180,7 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      try {
-        cache.classes = await banner.classSearch(term, 'CIS');
-      } catch (e) {
-      console.error(e);
-      }
+      cache.classes = await banner.classSearch(term, 'CIS');
     });
 
     it('Should throw an error when a subject and term are not passed', function () {
@@ -233,11 +203,7 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      try {
-        cache.catalog = await banner.catalogSearch(term, 'CIS');
-      } catch (e) {
-      console.error(e);
-      }
+      cache.catalog = await banner.catalogSearch(term, 'CIS');
     });
 
     it('Should throw an error when a term and subject are not passed', function () {
@@ -260,12 +226,7 @@ describe('Banner', function () {
     this.timeout(30000);
 
     before(async () => {
-      try {
-        cache.courses = await banner.getAllCourses(term);
-      } catch (e) {
-        console.error(e);
-      }
-
+      cache.courses = await banner.getAllCourses(term);
     });
 
     it('Should throw an error when a term is not passed', function () {
