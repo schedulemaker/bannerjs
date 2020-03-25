@@ -6,16 +6,25 @@ var lib = require('../lib');
 describe('banner/lib', function(school){ 
 
   /**
+   * SETUP
+   */
+  before(function(){
+    this.cache = {};
+  });
+
+  /**
    * GET_TERMS()
    */
   describe('#getTerms()', function () {
 
     before(async () => {
-      cache.terms = await banner.getTerms();
-    });
-
-    it('Should not throw an error', function () {
-      assert.doesNotReject(async () => await banner.getTerms());
+      this.cache = this.test.parent.parent.ctx.cache;
+      try {
+        this.cache.getTerms = await banner.getTerms();
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
     it('Should not return void', function () {
@@ -33,7 +42,8 @@ describe('banner/lib', function(school){
   describe('#getSubjects()', function () {
 
     before(async () => {
-      cache.subjects = await banner.getSubjects(term);
+      this.cache = this.test.parent.parent.ctx.cache;
+      this.cache.getSubjects = await banner.getSubjects(term);
     });
 
     it('Should throw an error when a term is not passed', function () {
@@ -55,11 +65,8 @@ describe('banner/lib', function(school){
   describe('#getCampus()', function () {
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.campus = await banner.getCampus();
-    });
-
-    it('Should not throw an error', function () {
-      assert.doesNotReject(async () => await banner.getCampus());
     });
 
     it('Should not return void', function () {
@@ -77,11 +84,8 @@ describe('banner/lib', function(school){
   describe('#getColleges()', function () {
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.colleges = await banner.getColleges();
-    });
-
-    it('Should not throw an error', function () {
-      assert.doesNotReject(async () => await banner.getColleges());
     });
 
     it('Should not return void', function () {
@@ -99,11 +103,8 @@ describe('banner/lib', function(school){
   describe('#getAttributes()', function () {
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.attributes = await banner.getAttributes();
-    });
-
-    it('Should not throw an error', function () {
-      assert.doesNotReject(async () => await banner.getAttributes());
     });
 
     it('Should not return void', function () {
@@ -122,6 +123,7 @@ describe('banner/lib', function(school){
     this.timeout(15000);
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.instructors = await banner.getInstructors(term);
     });
 
@@ -145,6 +147,7 @@ describe('banner/lib', function(school){
     this.timeout(30000);
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.classes = await banner.classSearch(term, 'CIS');
     });
 
@@ -168,6 +171,7 @@ describe('banner/lib', function(school){
     this.timeout(30000);
 
     before(async () => {
+      this.cache = this.test.parent.parent.ctx.cache;
       cache.catalog = await banner.catalogSearch(term, 'CIS');
     });
 

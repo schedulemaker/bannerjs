@@ -93,16 +93,26 @@ describe('banner/lib.private', function(){
     before(function(){
       this.cache = this.test.parent.parent.ctx.cache;
       this.cache.batchRequest = {};
-      this.method = 'getInstructors';
+      this.method = 'get_instructor';
       this.school = 'temple';
     });
 
-    [10,100,1000].forEach(batchSize => {
-      [10,100,1000].forEach(pageSize => {
-        describe(`${batchSize}:${pageSize}`, function(){
-          it('Should return a single depth array', function(){
-            this.context = this.test.parent.parent.ctx;
-          });
+    [[10,10],[10,100]].forEach(([batchSize, pageSize]) => {
+      describe(`${batchSize}:${pageSize}`, function(){
+        it('Should throw an error with mismatched batch and page sizes', async function(){
+          this.context = this.test.parent.parent.ctx;
+          assert.rejects(async () => await lib.batchRequest(batchSize, pageSize, {term: 202036}, this.context.method, this.context.school), Error, 'Batch size must be greater than page size');
+        });
+      });
+    });
+  
+    [[100,10],[1000,10],[1000,100]].forEach(([batchSize, pageSize]) => {
+      describe(`${batchSize}:${pageSize}`, function(){
+        it('Should return a single depth array', async function(){
+          this.context = this.test.parent.parent.ctx;
+          let keyString = `${batchSize}:${pageSize}`;
+          this.context.cache.batchRequest[keyString] = await lib.batchRequest(batchSize, pageSize, {term: 202036}, this.context.method, this.context.school);
+          assert.strict(this.context.cache.batchRequest[keyString].every(val => val[0] === undefined));
         });
       });
     });
