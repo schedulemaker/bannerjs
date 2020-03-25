@@ -3,20 +3,7 @@
 var assert = require('assert');
 var lib = require('../lib');
 
-describe('banner/lib', function(){
-    /**
-   * _RESET()
-   */
-  describe('#_reset()', function () {
-    it('Should return cookie value', async function () {
-      let cookie = await banner._reset(term)
-      assert.strict(cookie.length === 2);
-      assert.strict(cookie[0].startsWith('JSESSIONID'));
-      assert.strict(cookie[1].startsWith('BIGipServer'));
-    });
-  });
-
-  
+describe('banner/lib', function(school){ 
 
   /**
    * GET_TERMS()
@@ -197,31 +184,31 @@ describe('banner/lib', function(){
     });
   });
 
-  /**
-   * GETALLCOURSES()
-   */
-  describe('#getAllCourses()', function () {
-    this.timeout(30000);
+  // /**
+  //  * GETALLCOURSES()
+  //  */
+  // describe('#getAllCourses()', function () {
+  //   this.timeout(30000);
 
-    before(async () => {
-      cache.courses = await banner.getAllCourses(term);
-    });
+  //   before(async () => {
+  //     cache.courses = await banner.getAllCourses(term);
+  //   });
 
-    it('Should throw an error when a term is not passed', function () {
-      assert.rejects(async () => await banner.getAllCourses(), Error, 'Must provide term');
-    });
+  //   it('Should throw an error when a term is not passed', function () {
+  //     assert.rejects(async () => await banner.getAllCourses(), Error, 'Must provide term');
+  //   });
 
-    it('Should not return NULL', function(){
-      assert.strict(cache.courses);
-    });
+  //   it('Should not return NULL', function(){
+  //     assert.strict(cache.courses);
+  //   });
 
-    it('Should return a non-empty array', function () {
-      assert.strict(cache.courses.length > 0);
-    });
+  //   it('Should return a non-empty array', function () {
+  //     assert.strict(cache.courses.length > 0);
+  //   });
 
-    it('Should retrieve courses for each subject', function () {
-      let uniqueSubjects = [...new Set(cache.courses.map(item => item.subject))];
-      assert.strict(cache.subjects.length === uniqueSubjects.length);
-    });
-  });
+  //   it('Should retrieve courses for each subject', function () {
+  //     let uniqueSubjects = [...new Set(cache.courses.map(item => item.subject))];
+  //     assert.strict(cache.subjects.length === uniqueSubjects.length);
+  //   });
+  // });
 });

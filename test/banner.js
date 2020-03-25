@@ -25,17 +25,16 @@ describe('Banner', function () {
 
 Object.keys(config.schools).forEach(function (school) {
   describe(`Banner-${school}`, function () {
-    /**
-     * SETUP
-     */
-    var cache = {};
-
-
 
     /**
      * SETUP
      */
-    var banner = new Banner(school);
+    before(function(){
+      var cache = {};
+      var banner = new Banner(school);
+    });
+    
+    
 
 
   });

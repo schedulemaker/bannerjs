@@ -21,7 +21,9 @@ class Banner {
         if (config.schools[school] === undefined){
             throw new Error(`Unsupported school "${school}"`);
         }
+
         this.School = school;
+        
         config.schools[school].methods.forEach(method => {
             this[methods[method].displayName] = lib[methods[method].displayName]
         });
