@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var lib = require('../lib');
+var lib = require('../lib/public');
 
 describe('banner/lib', function(school){ 
 
@@ -10,6 +10,7 @@ describe('banner/lib', function(school){
    */
   before(function(){
     this.cache = {};
+    this.School = 'temple';
   });
 
   /**
@@ -147,20 +148,32 @@ describe('banner/lib', function(school){
     this.timeout(30000);
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.classes = await banner.classSearch(term, 'CIS');
+      this.args = {
+        term: 202036,
+        subject: 'CIS',
+        offset: Math.ceil(Math.random() * Math.floor(5)),
+        pageSize: 25
+      }
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      this.cache.classSearch = await lib.classSearch.call(this.context, this.args);
     });
 
     it('Should throw an error when a subject and term are not passed', function () {
-      assert.rejects(async () =>await banner.classSearch(), Error, 'Must provide term and subject');
+      assert.rejects(async () => await lib.classSearch.call(this.context), Error, 'Must provide term and subject');
+      let incompleteArgs = {
+        term: 202036,
+        max: 10
+      }
+      assert.rejects(async () => await lib.classSearch.call(this.context, incompleteArgs), Error, 'Must provide term and subject');
     });
 
     it('Should not return NULL', function(){
-      assert.strict(cache.classes);
+      assert.strict(this.cache.classSearch.data);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.classes.length > 0);
+      assert.strict(this.cache.classSearch.data.length > 0);
     });
   });
 
