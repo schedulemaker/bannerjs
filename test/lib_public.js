@@ -19,21 +19,22 @@ describe('banner/lib', function(school){
   describe('#getTerms()', function () {
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
       try {
-        this.cache.getTerms = await banner.getTerms();
+        this.cache.getTerms = await lib.getTerms.call(this.context, {});
       } catch (error) {
         console.error(error);
         this.cache.getTerms = error;
       }
     });
 
-    it('Should not return void', function () {
-      assert.strict(cache.terms);
+    it('Should not return NULL', function () {
+      assert.strict(this.cache.getTerms);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.terms.length > 0);
+      assert.strict(this.cache.getTerms.length > 0);
     });
   });
 
@@ -43,20 +44,27 @@ describe('banner/lib', function(school){
   describe('#getSubjects()', function () {
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      this.cache.getSubjects = await banner.getSubjects(term);
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      this.params = {term: 202036};
+      try {
+        this.cache.getSubjects = await lib.getSubjects.call(this.context, this.params);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(async () => await banner.getSubjects(), Error, 'Must provide term');
+      assert.rejects(async () => await lib.getSubjects(), Error, 'Must provide term');
     });
 
-    it('Should not return void', function () {
-      assert.strict(cache.subjects);
+    it('Should not return NULL', function () {
+      assert.strict(this.cache.getSubjects);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.subjects.length > 0);
+      assert.strict(this.cache.getSubjects.length > 0);
     });
   });
 
@@ -66,16 +74,22 @@ describe('banner/lib', function(school){
   describe('#getCampus()', function () {
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.campus = await banner.getCampus();
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      try {
+        this.cache.getCampus = await lib.getCampus.call(this.context);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
-    it('Should not return void', function () {
-      assert.strict(cache.campus);
+    it('Should not return NULL', function () {
+      assert.strict(this.cache.getCampus);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.campus.length > 0);
+      assert.strict(this.cache.getCampus.length > 0);
     });
   });
 
@@ -85,16 +99,22 @@ describe('banner/lib', function(school){
   describe('#getColleges()', function () {
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.colleges = await banner.getColleges();
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      try {
+        this.cache.getColleges = await lib.getColleges.call(this.context);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
-    it('Should not return void', function () {
-      assert.strict(cache.colleges);
+    it('Should not return NULL', function () {
+      assert.strict(this.cache.getColleges);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.colleges.length > 0);
+      assert.strict(this.cache.getColleges.length > 0);
     });
   });
 
@@ -104,16 +124,22 @@ describe('banner/lib', function(school){
   describe('#getAttributes()', function () {
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.attributes = await banner.getAttributes();
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      try {
+        this.cache.getAttributes = await lib.getAttributes.call(this.context);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
-    it('Should not return void', function () {
-      assert.strict(cache.attributes);
+    it('Should not return NULL', function () {
+      assert.strict(this.cache.getAttributes);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.attributes.length > 0);
+      assert.strict(this.cache.getAttributes.length > 0);
     });
   });
 
@@ -124,20 +150,27 @@ describe('banner/lib', function(school){
     this.timeout(15000);
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.instructors = await banner.getInstructors(term);
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      this.params = {term: 202036}
+      try {
+        this.cache.getInstructors = await lib.getInstructors.call(this.context, this.params);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(async () => await banner.getInstructors(), Error, 'Must provide term');
+      assert.rejects(async () => await lib.getInstructors(), Error, 'Must provide term');
     });
 
     it('Should not return void', function () {
-      assert.strict(cache.instructors);
+      assert.strict(this.cache.getInstructors);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.instructors.length > 0);
+      assert.strict(this.cache.getInstructors.length > 0);
     });
   });
 
@@ -145,7 +178,6 @@ describe('banner/lib', function(school){
    * CLASS_SEARCH()
    */
   describe('#classSearch(subjects)', function () {
-    this.timeout(30000);
 
     before(async () => {
       this.args = {
@@ -156,7 +188,12 @@ describe('banner/lib', function(school){
       }
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
-      this.cache.classSearch = await lib.classSearch.call(this.context, this.args);
+      try {
+        this.cache.classSearch = await lib.classSearch.call(this.context, this.args);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
     it('Should throw an error when a subject and term are not passed', function () {
@@ -184,20 +221,30 @@ describe('banner/lib', function(school){
     this.timeout(30000);
 
     before(async () => {
-      this.cache = this.test.parent.parent.ctx.cache;
-      cache.catalog = await banner.catalogSearch(term, 'CIS');
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      this.params = {
+        term: 202036,
+        subject: 'CIS'
+      };
+      try {
+        this.cache.catalogSearch = await lib.catalogSearch.call(this.context, this.params);
+      } catch (error) {
+        console.error(error);
+        this.cache.getTerms = error;
+      }
     });
 
     it('Should throw an error when a term and subject are not passed', function () {
-      assert.rejects(async () => await banner.catalogSearch(), Error, 'Must provide term and subject');
+      assert.rejects(async () => await lib.catalogSearch(), Error, 'Must provide term and subject');
     });
 
     it('Should not return NULL', function(){
-      assert.strict(cache.catalog);
+      assert.strict(this.cache.catalogSearch);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(cache.catalog.length > 0);
+      assert.strict(this.cache.catalogSearch.length > 0);
     });
   });
 
@@ -208,11 +255,11 @@ describe('banner/lib', function(school){
   //   this.timeout(30000);
 
   //   before(async () => {
-  //     cache.courses = await banner.getAllCourses(term);
+  //     cache.courses = await lib.getAllCourses(term);
   //   });
 
   //   it('Should throw an error when a term is not passed', function () {
-  //     assert.rejects(async () => await banner.getAllCourses(), Error, 'Must provide term');
+  //     assert.rejects(async () => await lib.getAllCourses(), Error, 'Must provide term');
   //   });
 
   //   it('Should not return NULL', function(){
