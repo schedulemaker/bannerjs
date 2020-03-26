@@ -42,7 +42,7 @@ jobs:
         
       - name: Deploy to AWS
         run: |
-          aws lambda publish-layer-version --layer-name $LAYER_NAME --description $PR_TITLE --compatible-runtimes $RUNTIMES --zip-file fileb://banner.zip --region $REGION
+          aws lambda publish-layer-version --layer-name $LAYER_NAME --description "$PR_TITLE" --compatible-runtimes $RUNTIMES --zip-file fileb://banner.zip --region $REGION
         env:        
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
