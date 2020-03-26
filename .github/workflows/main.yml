@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy to AWS
+env: 
+  REGION: us-east-2
+  LAYER_NAME: bannerjs
+  RUNTIMES: nodejs12.x
+  PR_TITLE: ${{ github.event.pull_request.title }}
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Create folder structure
+        run: mkdir nodejs && mkdir nodejs/node_modules && mkdir nodejs/node_modules/banner
+      
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          path: nodejs/node_modules/banner
+
+      - name: Zip NodeJS module
+        run: | 
+          zip -r banner.zip nodejs -x 
+          "nodejs/node_modules/banner/.git/*" 
+          "nodejs/node_modules/banner/test/*" 
+          nodejs/node_modules/banner/.gitignore 
+          nodejs/node_modules/banner/LICENSE 
+          nodejs/node_modules/banner/README.md
+        
+      - name: Deploy to AWS
+        run: |
+          aws lambda publish-layer-version --layer-name $LAYER_NAME --description $PR_TITLE --compatible-runtimes $RUNTIMES --zip-file fileb://banner.zip --region $REGION
+        env:        
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          
