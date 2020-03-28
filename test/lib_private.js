@@ -111,7 +111,7 @@ describe('banner/lib.private', function(){
         it('Should return a single depth array', async function(){
           this.context = this.test.parent.parent.ctx;
           let keyString = `${batchSize}:${pageSize}`;
-          this.context.cache.batchRequest[keyString] = await lib.batchRequest(batchSize, pageSize, {term: 202036}, this.context.method, this.context.school);
+          this.context.cache.batchRequest[keyString] = await lib.batchRequest(batchSize, pageSize, 0, {term: 202036}, this.context.method, this.context.school);
           assert.strict(this.context.cache.batchRequest[keyString].every(val => val[0] === undefined));
         });
       });
