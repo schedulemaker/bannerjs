@@ -147,9 +147,8 @@ describe('banner/lib', function(school){
    * GETINSTRUCTORS()
    */
   describe('#getInstructors()', function () {
-    this.timeout(15000);
-
     before(async () => {
+      // this.timeout(3000);
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
       this.params = {term: 202036}
@@ -178,7 +177,6 @@ describe('banner/lib', function(school){
    * CLASS_SEARCH()
    */
   describe('#classSearch(subjects)', function () {
-
     before(async () => {
       this.args = {
         term: 202036,
@@ -218,14 +216,14 @@ describe('banner/lib', function(school){
    * CATALOGSEARCH()
    */
   describe('#catalogSearch(subjects)', function () {
-    this.timeout(30000);
-
     before(async () => {
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
       this.params = {
         term: 202036,
-        subject: 'CIS'
+        subject: 'CIS',
+        offset: Math.ceil(Math.random() * Math.floor(5)),
+        pageSize: 25
       };
       try {
         this.cache.catalogSearch = await lib.catalogSearch.call(this.context, this.params);
@@ -244,7 +242,7 @@ describe('banner/lib', function(school){
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(this.cache.catalogSearch.length > 0);
+      assert.strict(this.cache.catalogSearch.data.length > 0);
     });
   });
 
