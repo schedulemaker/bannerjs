@@ -33,12 +33,12 @@ jobs:
 
       - name: Zip NodeJS module
         run: | 
-          zip -r banner.zip nodejs -x 
-          "nodejs/node_modules/banner/.git/*" 
-          "nodejs/node_modules/banner/test/*" 
-          nodejs/node_modules/banner/.gitignore 
-          nodejs/node_modules/banner/LICENSE 
-          nodejs/node_modules/banner/README.md
+          zip -r banner.zip nodejs -x \
+          "nodejs/node_modules/banner/.git/*" \
+          "nodejs/node_modules/banner/test/*" \
+          nodejs/node_modules/banner/.gitignore \ 
+          nodejs/node_modules/banner/LICENSE \
+          nodejs/node_modules/banner/README.md \
         
       - name: Deploy to AWS
         run: |
