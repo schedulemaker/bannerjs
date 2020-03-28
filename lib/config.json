@@ -10,21 +10,23 @@
             "instructors": 1000
         }
     },
-    "temple": {
-        "host": "prd-xereg.temple.edu",
-        "methods": [
-            "get_subject",
-            "get_instructor",
-            "get_college",
-            "get_attribute",
-            "get_campus",
-            "getTerms",
-            "searchResults",
-            "courseSearchResults",
-            "get_instructionalMethod",
-            "get_partOfTerm",
-            "get_session",
-            "getCourseDescription"
-        ]
+    "schools": {
+        "temple": {
+            "host": "prd-xereg.temple.edu",
+            "methods": [
+                "get_subject",
+                "get_instructor",
+                "get_college",
+                "get_attribute",
+                "get_campus",
+                "getTerms",
+                "searchResults",
+                "courseSearchResults",
+                "get_instructionalMethod",
+                "get_partOfTerm",
+                "get_session",
+                "getCourseDescription"
+            ]
+        }
     }
 }

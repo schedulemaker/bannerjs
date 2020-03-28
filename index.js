@@ -2,7 +2,7 @@
 
 const config = require('./lib/config');
 const methods = require('./lib/methods');
-const banner = require('./lib');
+const lib = require('./lib');
 
 /**
  * @class Class to interact with the SSB Server
@@ -18,12 +18,14 @@ class Banner {
             throw new Error('Must provide school');
         }
 
-        if (config[school] === undefined){
-            throw new Error('Unsupported school');
+        if (config.schools[school] === undefined){
+            throw new Error(`Unsupported school "${school}"`);
         }
+
         this.School = school;
-        config[school].methods.forEach(method => {
-            this[methods[method].displayName] = banner[method]
+        
+        config.schools[school].methods.forEach(method => {
+            this[methods[method].displayName] = lib[methods[method].displayName]
         });
     }
 }
