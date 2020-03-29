@@ -20,8 +20,6 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-    
-    if: github.actor == github.event.repository.owner.login
 
     steps:
     - uses: actions/checkout@v2
