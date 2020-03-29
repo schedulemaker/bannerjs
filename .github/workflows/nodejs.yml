@@ -5,7 +5,6 @@ name: Node.js CI
 
 on:
   repository_dispatch:
-    branches: [master]
   pull_request:
     branches: [ master ]
     types: [opened, reopened]  
