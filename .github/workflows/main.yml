@@ -65,6 +65,6 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Publish to GitHub Packages
-        run: npm publish
+        run: npm config && npm publish
         
 
