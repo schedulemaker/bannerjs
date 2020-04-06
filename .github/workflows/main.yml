@@ -55,7 +55,7 @@ jobs:
   publish-package:
     if: github.event.pull_request.merged == true
     # The type of runner that the job will run on
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     container: $CONTAINER
     env:
       NPM_CONFIG_REGISTRY: https://npm.pkg.github.com/
