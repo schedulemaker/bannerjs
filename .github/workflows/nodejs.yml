@@ -2,6 +2,8 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
+env:
+  CONTAINER: node:12
 
 on:
   repository_dispatch:
@@ -15,9 +17,8 @@ on:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
-    container:
-      node:12
+    # runs-on: ubuntu-latest
+    container: $CONTAINER
 
     # strategy:
     #   matrix:
