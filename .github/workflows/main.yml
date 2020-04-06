@@ -55,9 +55,10 @@ jobs:
   publish-package:
     if: github.event.pull_request.merged == true
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    container:
-      $CONTAINER
+    # runs-on: ubuntu-latest
+    container: $CONTAINER
+    env:
+      NPM_CONFIG_REGISTRY: https://npm.pkg.github.com/
 
     steps:
       - name: Checkout repository
@@ -65,6 +66,5 @@ jobs:
       
       - name: Publish to GitHub Packages
         run: npm publish
-        with:
-          registry-url: https://npm.pkg.github.com/
+        
 
