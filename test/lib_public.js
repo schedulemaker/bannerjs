@@ -51,7 +51,7 @@ describe('banner/lib', function(school){
         this.cache.getSubjects = await lib.getSubjects.call(this.context, this.params);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getSubjects = error;
       }
     });
 
@@ -71,25 +71,25 @@ describe('banner/lib', function(school){
   /**
    * GETCAMPUS()
    */
-  describe('#getCampus()', function () {
+  describe('#getCampuses()', function () {
 
     before(async () => {
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
       try {
-        this.cache.getCampus = await lib.getCampus.call(this.context);
+        this.cache.getCampuses = await lib.getCampuses.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getCampuses = error;
       }
     });
 
     it('Should not return NULL', function () {
-      assert.strict(this.cache.getCampus);
+      assert.strict(this.cache.getCampuses);
     });
 
     it('Should return a non-empty array', function () {
-      assert.strict(this.cache.getCampus.length > 0);
+      assert.strict(this.cache.getCampuses.length > 0);
     });
   });
 
@@ -105,7 +105,7 @@ describe('banner/lib', function(school){
         this.cache.getColleges = await lib.getColleges.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getColleges = error;
       }
     });
 
@@ -130,7 +130,7 @@ describe('banner/lib', function(school){
         this.cache.getAttributes = await lib.getAttributes.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getAttributes = error;
       }
     });
 
@@ -148,7 +148,7 @@ describe('banner/lib', function(school){
    */
   describe('#getInstructors()', function () {
     before(async () => {
-      // this.timeout(3000);
+      this.timeout(3000);
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
       this.params = {term: 202036}
@@ -156,7 +156,7 @@ describe('banner/lib', function(school){
         this.cache.getInstructors = await lib.getInstructors.call(this.context, this.params);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getInstructors = error;
       }
     });
 
@@ -190,7 +190,7 @@ describe('banner/lib', function(school){
         this.cache.classSearch = await lib.classSearch.call(this.context, this.args);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.classSearch = error;
       }
     });
 
@@ -229,7 +229,7 @@ describe('banner/lib', function(school){
         this.cache.catalogSearch = await lib.catalogSearch.call(this.context, this.params);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.catalogSearch = error;
       }
     });
 
@@ -243,6 +243,31 @@ describe('banner/lib', function(school){
 
     it('Should return a non-empty array', function () {
       assert.strict(this.cache.catalogSearch.data.length > 0);
+    });
+  });
+
+  describe('#getCourseDescription(term, crn)',function(){
+    before(async () => {
+      this.context = this.parent.ctx;
+      this.cache = this.context.cache;
+      this.params = {
+        term: 202036,
+        crn: 44422
+      };
+      try{
+        this.cache.getCourseDescription = await lib.getCourseDescription(this.params);
+      } catch (error){
+        console.error(error)
+        this.cache.getCourseDescription
+      }
+    });
+
+    it('Should return a string', function(){
+      assert.strict(typeof(this.cache.getCourseDescription) === 'string');
+    });
+
+    it('Should remove all HTML tags', function(){
+      // assert.strict()
     });
   });
 
