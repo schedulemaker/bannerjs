@@ -9,7 +9,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NODE_VERSION: 12
+  CONTAINER: node:12
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -56,4 +56,15 @@ jobs:
     if: github.event.pull_request.merged == true
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-          
+    container:
+      $CONTAINER
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Publish to GitHub Packages
+        run: npm publish
+        with:
+          registry-url: https://npm.pkg.github.com/
+
