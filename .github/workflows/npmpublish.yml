@@ -20,6 +20,6 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Publish to GitHub Packages
-        run: npm config && npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
