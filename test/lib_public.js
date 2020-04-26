@@ -148,7 +148,7 @@ describe('banner/lib', function(school){
    */
   describe('#getInstructors()', function () {
     before(async () => {
-      // this.timeout(3000);
+      this.timeout(3000);
       this.context = this.parent.ctx;
       this.cache = this.context.cache;
       this.params = {term: 202036}
