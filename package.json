@@ -1,6 +1,6 @@
 {
-  "name": "bannerjs",
-  "version": "1.0.0",
+  "name": "@schedulemaker/bannerjs",
+  "version": "0.4.0",
   "description": "Javascript module to retrieve data from Ellucian Banner",
   "main": "index.js",
   "directories": {
@@ -16,9 +16,12 @@
     "url": "git+https://github.com/schedulemaker/bannerjs.git"
   },
   "author": "Paul Hutchings",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/schedulemaker/bannerjs/issues"
   },
-  "homepage": "https://github.com/schedulemaker/bannerjs#readme"
+  "homepage": "https://github.com/schedulemaker/bannerjs#readme",
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/" 
+  }
 }

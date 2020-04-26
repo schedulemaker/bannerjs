@@ -12,7 +12,7 @@
         "path": "/classSearch/get_instructor"
     },
     "get_campus": {
-        "displayName": "getCampus",
+        "displayName": "getCampuses",
         "path": "/classSearch/get_campus"
     },
     "get_college": {
