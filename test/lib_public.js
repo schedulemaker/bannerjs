@@ -18,11 +18,11 @@ describe('banner/lib', function(school){
    */
   describe('#getTerms()', function () {
 
-    before(async () => {
-      this.context = this.parent.ctx;
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       try {
-        this.cache.getTerms = await lib.getTerms.call(this.context, {});
+        this.cache.getTerms = await lib.getTerms.call(this.context);
       } catch (error) {
         console.error(error);
         this.cache.getTerms = error;
@@ -41,22 +41,22 @@ describe('banner/lib', function(school){
   /**
    * GETSUBJECTS()
    */
-  describe('#getSubjects()', function () {
+  describe('#getSubjects(term)', function () {
 
-    before(async () => {
-      this.context = this.parent.ctx;
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
-      this.params = {term: 202036};
+      this.term = 202036;
       try {
-        this.cache.getSubjects = await lib.getSubjects.call(this.context, this.params);
+        this.cache.getSubjects = await lib.getSubjects.call(this.context, this.term);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getSubjects = error;
       }
     });
 
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(async () => await lib.getSubjects(), Error, 'Must provide term');
+      assert.rejects(lib.getSubjects(), Error('Must provide term'));
     });
 
     it('Should not return NULL', function () {
@@ -73,14 +73,14 @@ describe('banner/lib', function(school){
    */
   describe('#getCampuses()', function () {
 
-    before(async () => {
-      this.context = this.parent.ctx;
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       try {
         this.cache.getCampuses = await lib.getCampuses.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getCampuses = error;
       }
     });
 
@@ -98,14 +98,14 @@ describe('banner/lib', function(school){
    */
   describe('#getColleges()', function () {
 
-    before(async () => {
-      this.context = this.parent.ctx;
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       try {
         this.cache.getColleges = await lib.getColleges.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getColleges = error;
       }
     });
 
@@ -123,14 +123,14 @@ describe('banner/lib', function(school){
    */
   describe('#getAttributes()', function () {
 
-    before(async () => {
-      this.context = this.parent.ctx;
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       try {
         this.cache.getAttributes = await lib.getAttributes.call(this.context);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getAttributes = error;
       }
     });
 
@@ -146,22 +146,22 @@ describe('banner/lib', function(school){
   /**
    * GETINSTRUCTORS()
    */
-  describe('#getInstructors()', function () {
-    before(async () => {
+  describe('#getInstructors(term)', function () {
+    before(async function(){
       this.timeout(3000);
-      this.context = this.parent.ctx;
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
-      this.params = {term: 202036}
+      this.term = 202036;
       try {
-        this.cache.getInstructors = await lib.getInstructors.call(this.context, this.params);
+        this.cache.getInstructors = await lib.getInstructors.call(this.context, this.term);
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.getInstructors = error;
       }
     });
 
     it('Should throw an error when a term is not passed', function () {
-      assert.rejects(async () => await lib.getInstructors(), Error, 'Must provide term');
+      assert.rejects(lib.getInstructors(), Error('Must provide term'));
     });
 
     it('Should not return void', function () {
@@ -176,31 +176,31 @@ describe('banner/lib', function(school){
   /**
    * CLASS_SEARCH()
    */
-  describe('#classSearch(subjects)', function () {
-    before(async () => {
+  describe('#classSearch(term, subject)', function () {
+    before(async function(){
       this.args = {
         term: 202036,
         subject: 'CIS',
         offset: Math.ceil(Math.random() * Math.floor(5)),
         pageSize: 25
       }
-      this.context = this.parent.ctx;
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       try {
-        this.cache.classSearch = await lib.classSearch.call(this.context, this.args);
+        this.cache.classSearch = await lib.classSearch.call(this.context, ...Object.values(this.args));
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.classSearch = error;
       }
     });
 
     it('Should throw an error when a subject and term are not passed', function () {
-      assert.rejects(async () => await lib.classSearch.call(this.context), Error, 'Must provide term and subject');
+      assert.rejects(lib.classSearch.call(this.context), Error('Must provide term and subject'))
       let incompleteArgs = {
         term: 202036,
         max: 10
       }
-      assert.rejects(async () => await lib.classSearch.call(this.context, incompleteArgs), Error, 'Must provide term and subject');
+      assert.rejects(lib.classSearch.call(this.context, incompleteArgs), Error('Must provide term and subject'));
     });
 
     it('Should not return NULL', function(){
@@ -215,9 +215,9 @@ describe('banner/lib', function(school){
   /**
    * CATALOGSEARCH()
    */
-  describe('#catalogSearch(subjects)', function () {
-    before(async () => {
-      this.context = this.parent.ctx;
+  describe('#catalogSearch(term, subject)', function () {
+    before(async function(){
+      this.context = this.test.parent.parent.ctx;
       this.cache = this.context.cache;
       this.params = {
         term: 202036,
@@ -226,15 +226,15 @@ describe('banner/lib', function(school){
         pageSize: 25
       };
       try {
-        this.cache.catalogSearch = await lib.catalogSearch.call(this.context, this.params);
+        this.cache.catalogSearch = await lib.catalogSearch.call(this.context, ...Object.values(this.params));
       } catch (error) {
         console.error(error);
-        this.cache.getTerms = error;
+        this.cache.catalogSearch = error;
       }
     });
 
     it('Should throw an error when a term and subject are not passed', function () {
-      assert.rejects(async () => await lib.catalogSearch(), Error, 'Must provide term and subject');
+      assert.rejects(lib.catalogSearch(), Error('Must provide term and subject'));
     });
 
     it('Should not return NULL', function(){

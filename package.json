@@ -6,7 +6,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mocha": "^7.1.2"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "mocha"
@@ -21,7 +23,7 @@
     "url": "https://github.com/schedulemaker/bannerjs/issues"
   },
   "homepage": "https://github.com/schedulemaker/bannerjs#readme",
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
