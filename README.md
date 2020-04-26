@@ -335,3 +335,6 @@ This repo contains a [Mocha](https://mochajs.org/) test suite which can be run w
 ## Deploying to AWS
 
 The library can be deployed to AWS as a Lambda Layer. Use the provided `deploy.sh` script.
+
+## Known issues
+[#16](https://github.com/schedulemaker/bannerjs/issues/16) - `getCourseDescription` currently throws an exception due to trying to `JSON.parse` the returned HTML string. At this time please do not use the `getCourseDescription` method.
